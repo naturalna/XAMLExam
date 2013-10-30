@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="ExamXAML.View.MoviesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:commandBehavior="clr-namespace:ExamXAML.Behavior"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel Orientation="Horizontal">
+        <ListView
+            commandBehavior:SelectionChangeBehavior.SelectionChanged = "{Binding SelectionChange}"
+            ItemsSource="{Binding Movies}" 
+            >
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Choose cinema:" DisplayMemberBinding="{Binding Title}"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ScrollViewer>
+        <Border BorderBrush="Black"  BorderThickness="2" Width="400" >
+
+            <StackPanel DataContext="{Binding MovieDetail}">
+                <Label FontSize="12" FontWeight="Bold">Title :</Label>
+                <TextBlock Text="{Binding Title}" TextWrapping="Wrap"></TextBlock>
+
+                <Label Content="Description : " FontSize="12" FontWeight="Bold"></Label>
+                <TextBlock Text="{Binding Description}" TextWrapping="Wrap"></TextBlock>
+
+
+                <Label Content="Actors : " FontSize="12" FontWeight="Bold"></Label>
+                    <ItemsControl ItemsSource="{Binding Path=Actors}">
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Background="Azure">
+                                        <!--TODO-->
+                                    <TextBlock Text="{Binding}"></TextBlock>
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                
+                <Label Content="Projections : " FontSize="12" FontWeight="Bold"></Label>
+                <ItemsControl ItemsSource="{Binding Path=Projections}">
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Background="Azure">
+
+                                <Label Content="Time" FontSize="10" FontWeight="Bold"></Label>
+                                <TextBlock Text="{Binding Time}" TextWrapping="Wrap"></TextBlock>
+
+                                <Label Content="Cinema" FontSize="10" FontWeight="Bold"></Label>
+                                <TextBlock Text="{Binding Cinema.Name}" TextWrapping="Wrap"></TextBlock>
+
+                                <Label Content="Movie" FontSize="10" FontWeight="Bold"></Label>
+                                <TextBlock Text="{Binding Movie.Title}" TextWrapping="Wrap"></TextBlock>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+        
+    </StackPanel>
+        
+        </Border>
+        </ScrollViewer>
+        <StackPanel Orientation="Vertical">
+            <Label Content="Search"></Label>
+            <TextBox 
+               
+                Width="200"
+                Height="30"
+                Text="{Binding SearchKeyword}">
+            </TextBox>
+            <Button Width="120" Height="30" 
+                   
+                        Command="{Binding Search}" 
+                        Content="Search"/>
+            
+            <Label Content="Found results : " FontSize="12" FontWeight="Bold"></Label>
+            <ItemsControl ItemsSource="{Binding Path=FoundMovies}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Background="Honeydew">
+
+                            <Label Content="Title : " FontSize="10" FontWeight="Bold"></Label>
+                            <TextBlock Text="{Binding Title}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,207 @@
+﻿<UserControl x:Class="ExamXAML.View.CinemasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:commandBehavior="clr-namespace:ExamXAML.Behavior"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel Orientation="Horizontal">
+        <ListView
+            commandBehavior:SelectionChangeBehavior.SelectionChanged = "{Binding SelectionChange}"
+            ItemsSource="{Binding Cinemas}" 
+            >
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Choose cinema:" DisplayMemberBinding="{Binding Name}"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ListView
+                commandBehavior:SelectionChangeBehavior.SelectionChanged = "{Binding SelectionChangeMovie}"
+                ItemsSource="{Binding MoviesInSelectedCinema}"
+                >
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Movies">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Title}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ListView
+                ItemsSource="{Binding Projections}"
+                 commandBehavior:SelectionChangeBehavior.SelectionChanged = "{Binding SelectionChangeProjection}"
+             
+                >
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Projection">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border BorderBrush="Black" BorderThickness="2">
+                                            <StackPanel>
+                                                <Label Content="Time"></Label>
+                                                <TextBlock Text="{Binding Time}"/>
+                                                <Label Content="Movie"></Label>
+                                                <TextBlock Text="{Binding Path=Movie.Title}"/>
+                                                <Label Content="Cinema"></Label>
+                                                <TextBlock Text="{Binding Path=Cinema.Name}"/>
+                                            </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ListView
+                
+                ItemsSource="{Binding ProjectionsDetails}"
+                >
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="ProjectionsDetails">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <DockPanel>
+                                                <Label Content="Time"></Label>
+                                                <TextBlock Text="{Binding Time}"/>
+                                                <Label Content="Movie"></Label>
+                                                <TextBlock Text="{Binding Path=Movie.Title}"/>
+                                                <Label Content="Seats : " FontSize="12" FontWeight="Bold"></Label>
+
+
+                                                <Grid >
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <ListView 
+                                                        ItemsSource="{Binding Seats, UpdateSourceTrigger=PropertyChanged}"
+                                                       SelectionMode="Multiple"
+                                                        commandBehavior:SelectionChangeBehavior.SelectionChanged = "{Binding 
+                                                        Path = DataContext.ReservationCommand,
+                                                        RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                        
+                                                        
+                                                        >
+                                                        <ListView.View>
+                                                            <GridView>
+
+                                                                <GridView.Columns>
+                                                                    <GridViewColumn Header="Projection">
+
+                                                                        <GridViewColumn.CellTemplate>
+                                                                            <DataTemplate>
+
+                                                                                <StackPanel Orientation="Horizontal" >
+                                                                                    <DockPanel>
+                                                                                        <Label 
+                                                                                            Content="Row : " 
+                                                                                            FontSize="10" 
+                                                                                            FontWeight="Bold" ></Label>
+                                                                                        <TextBlock 
+                                                                                            Text="{Binding Row}" 
+                                                                                            TextWrapping="Wrap"></TextBlock>
+                                                                                        <Label 
+                                                                                            Content="Column : " 
+                                                                                            FontSize="10" 
+                                                                                            FontWeight="Bold"></Label>
+                                                                                        <TextBlock 
+                                                                                            Text="{Binding Column}" 
+                                                                                            TextWrapping="Wrap"></TextBlock>
+                                                                                        <Label 
+                                                                                            Content="Status : " 
+                                                                                            FontSize="10" 
+                                                                                            FontWeight="Bold"></Label>
+                                                                                        <TextBlock 
+                                                                                            Text="{Binding Status,  
+                                                                                            UpdateSourceTrigger=PropertyChanged}" 
+                                                                                            TextWrapping="Wrap"></TextBlock>
+                                                                                    </DockPanel>
+
+                                                                                </StackPanel>
+                                                                            </DataTemplate>
+                                                                        </GridViewColumn.CellTemplate>
+                                                                    </GridViewColumn>
+                                                                </GridView.Columns>
+                                                            </GridView>
+                                                        </ListView.View>
+                                                    </ListView>
+                                                </Grid>
+
+                                                <StackPanel>
+                                                    <TextBox 
+                                                        Width="120" 
+                                                        Height="30" 
+                                                        Text="{Binding Path = DataContext.Email,
+                                                        RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" >
+                                                        
+                                                    </TextBox>
+                                                    <Button
+                                                        DataContext="{Binding Seats}"
+                                                        Width="120" Height="30" 
+                                                        Command="{Binding Path = DataContext.ReservationCallCommand,
+                                                        RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                        Content="Reserve"
+                                                    ></Button>
+                                                    <Button
+                                                        DataContext="{Binding Seats}"
+                                                        Width="120" Height="30" 
+                                                        Command="{Binding Path = DataContext.Remove,
+                                                        RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                        Content="Remove reservetion"
+                                                    ></Button>
+                                                </StackPanel>
+
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </StackPanel>
+</UserControl>

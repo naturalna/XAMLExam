@@ -1,0 +1,53 @@
+﻿<Window x:Class="ExamXAML.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ViewModels="clr-namespace:ExamXAML.ViewModel"
+        xmlns:Views="clr-namespace:ExamXAML.View"
+        Title="MainWindow" Height="900" Width="1300">
+    <Window.DataContext>
+        <ViewModels:AppViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate            
+            DataType="{x:Type ViewModels:MoviesViewModel}">
+            <Views:MoviesView/>
+        </DataTemplate>
+        <DataTemplate            
+            DataType="{x:Type ViewModels:CinemaViewModel}">
+            <Views:CinemasView/>
+        </DataTemplate>
+        <DataTemplate            
+            DataType="{x:Type ViewModels:ProjectionsViewModel}">
+            <Views:ProjectionsView/>
+        </DataTemplate>
+    </Window.Resources>
+    <ScrollViewer>
+    <Grid>
+        <DockPanel>
+            <StackPanel
+                Name="HeaderContainer"
+                DockPanel.Dock="Top">
+                <ItemsControl ItemsSource="{Binding AllViewModels}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Name}"
+                                    Command="{Binding Path=DataContext.ChangeViewModel, 
+                                    RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                    CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+               
+            </StackPanel>
+            <ContentControl DockPanel.Dock="Bottom"            
+                            Content="{Binding CurrentViewModel}" />
+
+        </DockPanel>
+    </Grid>
+    </ScrollViewer>
+</Window>
